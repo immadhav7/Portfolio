@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Madhava Rao Dunna — DevOps Engineer</title>
+<meta name="description" content="DevOps Engineer with 4+ years in CI/CD, release management and AWS. Projects in Kubernetes, GitOps with ArgoCD, Terraform and blue/green delivery on ECS Fargate.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#10141a;
+    --surface:#171d26;
+    --surface-2:#1d2530;
+    --border:#26303d;
+    --text:#e4e8ed;
+    --text-dim:#8b95a5;
+    --text-faint:#5a6474;
+    --amber:#e8a33d;
+    --amber-dim:#e8a33d55;
+    --teal:#43a08a;
+    --teal-dim:#43a08a55;
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'IBM Plex Mono', monospace;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(circle at 15% 8%, rgba(232,163,61,0.06), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(67,160,138,0.06), transparent 40%);
+  }
+
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--amber); color:#10141a;}
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--amber);
+    outline-offset:3px;
+  }
+
+  .wrap{max-width:920px; margin:0 auto; padding:0 28px;}
+
+  /* ---------- PIPELINE NAV ---------- */
+  .pipeline-nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(16,20,26,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .pipeline-inner{
+    max-width:920px; margin:0 auto; padding:14px 28px;
+    display:flex; align-items:center; gap:6px;
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    letter-spacing:0.02em;
+    overflow-x:auto;
+  }
+  .pipeline-brand{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:14px;
+    color:var(--text);
+    margin-right:18px;
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+  .pipeline-brand .dot{color:var(--amber);}
+  .stage{
+    display:flex; align-items:center; gap:7px;
+    padding:6px 10px;
+    border-radius:4px;
+    color:var(--text-faint);
+    white-space:nowrap;
+    cursor:pointer;
+    border:1px solid transparent;
+    background:none;
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .stage .marker{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--text-faint);
+    flex-shrink:0;
+  }
+  .stage.passed{color:var(--teal);}
+  .stage.passed .marker{background:var(--teal);}
+  .stage.active{
+    color:var(--amber);
+    border-color:var(--amber-dim);
+    background:rgba(232,163,61,0.08);
+  }
+  .stage.active .marker{
+    background:var(--amber);
+    animation:pulse 1.4s ease-in-out infinite;
+  }
+  .connector{color:var(--border); font-size:10px;}
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 0 0 rgba(232,163,61,0.5);}
+    50%{box-shadow:0 0 0 4px rgba(232,163,61,0);}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:150px 0 90px;
+    border-bottom:1px solid var(--border);
+  }
+  .hero-eyebrow{
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    color:var(--teal);
+    display:flex; align-items:center; gap:9px;
+    margin-bottom:22px;
+    letter-spacing:0.03em;
+  }
+  .hero-eyebrow::before{
+    content:'';
+    width:7px; height:7px; border-radius:50%;
+    background:var(--teal);
+    box-shadow:0 0 0 3px rgba(67,160,138,0.15);
+  }
+  h1{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(34px, 6vw, 56px);
+    line-height:1.08;
+    letter-spacing:-0.01em;
+    color:#fff;
+    max-width:14ch;
+  }
+  .hero-role{
+    font-family:var(--font-display);
+    font-size:clamp(17px, 2.4vw, 21px);
+    color:var(--amber);
+    margin-top:16px;
+    font-weight:500;
+  }
+  .hero-desc{
+    margin-top:22px;
+    max-width:60ch;
+    color:var(--text-dim);
+    font-size:16px;
+  }
+  .terminal{
+    margin-top:38px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:8px;
+    overflow:hidden;
+    max-width:520px;
+  }
+  .terminal-bar{
+    display:flex; gap:6px;
+    padding:10px 14px;
+    border-bottom:1px solid var(--border);
+    background:var(--surface-2);
+  }
+  .terminal-bar span{
+    width:9px; height:9px; border-radius:50%;
+    background:var(--border);
+  }
+  .terminal-body{
+    padding:16px 18px;
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--text-dim);
+  }
+  .terminal-body .prompt{color:var(--teal);}
+  .terminal-body .out{color:var(--text);}
+  .caret{
+    display:inline-block; width:7px; height:14px;
+    background:var(--amber);
+    vertical-align:middle;
+    animation:blink 1s step-end infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+
+  .hero-links{
+    margin-top:34px;
+    display:flex; gap:14px; flex-wrap:wrap;
+  }
+  .btn{
+    font-family:var(--font-mono);
+    font-size:13px;
+    padding:11px 18px;
+    border-radius:6px;
+    border:1px solid var(--border);
+    transition:border-color .2s ease, background .2s ease, color .2s ease;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-primary{
+    background:var(--amber);
+    color:#181205;
+    border-color:var(--amber);
+    font-weight:600;
+  }
+  .btn-primary:hover{background:#f0b25a;}
+  .btn-ghost{color:var(--text-dim);}
+  .btn-ghost:hover{border-color:var(--teal); color:var(--teal);}
+
+  /* ---------- SECTION SCAFFOLDING ---------- */
+  section{padding:74px 0; border-bottom:1px solid var(--border);}
+  .section-head{
+    display:flex; align-items:baseline; gap:14px;
+    margin-bottom:38px;
+  }
+  .section-num{
+    font-family:var(--font-mono);
+    color:var(--text-faint);
+    font-size:13px;
+  }
+  .section-title{
+    font-family:var(--font-display);
+    font-size:26px;
+    font-weight:600;
+    color:#fff;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr;
+    gap:48px;
+  }
+  .about-text p{color:var(--text-dim); margin-bottom:16px; max-width:60ch;}
+  .about-text strong{color:var(--text); font-weight:600;}
+  .stat-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:20px;
+    margin-bottom:14px;
+  }
+  .stat-num{
+    font-family:var(--font-display);
+    font-size:28px;
+    color:var(--amber);
+    font-weight:700;
+  }
+  .stat-label{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--text-dim);
+    margin-top:4px;
+  }
+
+  /* ---------- EXPERIENCE ---------- */
+  .job{
+    display:grid;
+    grid-template-columns:180px 1fr;
+    gap:28px;
+    padding:26px 0;
+  }
+  .job:first-of-type{padding-top:0;}
+  .job + .job{border-top:1px solid var(--border);}
+  .job-meta{font-family:var(--font-mono); font-size:12px; color:var(--text-faint);}
+  .job-meta .status{
+    display:inline-flex; align-items:center; gap:6px;
+    color:var(--teal);
+    margin-bottom:10px;
+  }
+  .job-meta .status .marker{width:6px;height:6px;border-radius:50%;background:var(--teal);}
+  .job-meta .status.done{color:var(--text-faint);}
+  .job-meta .status.done .marker{background:var(--text-faint);}
+  .job-role{
+    font-family:var(--font-display);
+    font-size:19px;
+    font-weight:600;
+    color:#fff;
+    margin-bottom:4px;
+  }
+  .job-org{color:var(--amber); font-size:14.5px; margin-bottom:14px;}
+  .job ul{padding-left:18px; color:var(--text-dim); font-size:15px;}
+  .job li{margin-bottom:8px;}
+  .job li::marker{color:var(--teal);}
+
+  /* ---------- PROJECTS ---------- */
+  .project-list{display:grid; gap:20px;}
+  .project{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:26px 28px;
+    transition:border-color .2s ease, transform .2s ease;
+  }
+  .project:hover{border-color:var(--teal-dim); transform:translateY(-2px);}
+  .project-top{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    gap:16px; flex-wrap:wrap; margin-bottom:6px;
+  }
+  .project-id{
+    font-family:var(--font-mono); font-size:12px; color:var(--text-faint);
+    margin-bottom:6px;
+  }
+  .project-name{
+    font-family:var(--font-display);
+    font-size:20px; font-weight:600; color:#fff;
+  }
+  .project-sub{color:var(--amber); font-size:14.5px; margin-top:2px;}
+  .project-link{
+    font-family:var(--font-mono); font-size:12px;
+    padding:7px 12px; border:1px solid var(--border); border-radius:6px;
+    color:var(--text-dim); white-space:nowrap;
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .project-link:hover{border-color:var(--teal); color:var(--teal);}
+  .project ul{padding-left:18px; color:var(--text-dim); font-size:14.5px; margin:16px 0 18px;}
+  .project li{margin-bottom:7px;}
+  .project li::marker{color:var(--teal);}
+  .project li strong{color:var(--text); font-weight:500;}
+  .chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    font-family:var(--font-mono); font-size:11.5px;
+    padding:4px 10px; border-radius:4px;
+    background:var(--surface-2); border:1px solid var(--border);
+    color:var(--text-dim);
+  }
+
+  /* ---------- STACK ---------- */
+  .stack-group{margin-bottom:34px;}
+  .stack-group:last-child{margin-bottom:0;}
+  .stack-group-title{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--text-faint);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-bottom:16px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .stack-group-title::after{
+    content:'';
+    flex:1;
+    height:1px;
+    background:var(--border);
+  }
+  .tag-row{display:flex; flex-wrap:wrap; gap:10px;}
+  .tag{
+    font-family:var(--font-mono);
+    font-size:13px;
+    padding:9px 14px;
+    border-radius:6px;
+    border:1px solid var(--border);
+    background:var(--surface);
+    display:flex; align-items:center; gap:8px;
+  }
+  .tag.core{border-color:var(--teal-dim); color:var(--text);}
+  .tag.core .marker{background:var(--teal);}
+  .tag.building{color:var(--text-dim);}
+  .tag.building .marker{background:var(--amber); animation:pulse 1.6s ease-in-out infinite;}
+  .tag .marker{width:6px; height:6px; border-radius:50%; flex-shrink:0;}
+
+  /* ---------- EDUCATION ---------- */
+  .edu-card{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:24px 26px;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-bottom:16px;
+  }
+  .edu-degree{font-family:var(--font-display); font-size:18px; font-weight:600; color:#fff;}
+  .edu-school{color:var(--amber); font-size:14.5px; margin-top:4px;}
+  .edu-note{color:var(--text-dim); font-size:14px; margin-top:10px; max-width:52ch;}
+  .edu-date{font-family:var(--font-mono); font-size:12.5px; color:var(--text-faint); white-space:nowrap; text-align:right;}
+
+  /* ---------- CONTACT ---------- */
+  .contact{border-bottom:none; text-align:center; padding-bottom:100px;}
+  .contact .section-head{justify-content:center;}
+  .contact h2.cta{
+    font-family:var(--font-display);
+    font-size:clamp(26px, 4vw, 36px);
+    color:#fff;
+    max-width:16ch;
+    margin:0 auto 18px;
+  }
+  .contact p{color:var(--text-dim); max-width:48ch; margin:0 auto 30px;}
+  .contact-actions{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+
+  footer{
+    text-align:center;
+    padding:26px 0 40px;
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--text-faint);
+  }
+
+  @media (max-width:720px){
+    .about-grid{grid-template-columns:1fr;}
+    .job{grid-template-columns:1fr;}
+    .job-meta{order:2;}
+    .hero{padding-top:120px;}
+    .edu-date{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="pipeline-nav">
+  <div class="pipeline-inner" id="pipelineNav">
+    <div class="pipeline-brand">MRD<span class="dot">.</span>pipeline</div>
+    <div class="stage" data-target="about"><span class="marker"></span>profile</div>
+    <span class="connector">→</span>
+    <div class="stage" data-target="experience"><span class="marker"></span>experience</div>
+    <span class="connector">→</span>
+    <div class="stage" data-target="projects"><span class="marker"></span>projects</div>
+    <span class="connector">→</span>
+    <div class="stage" data-target="stack"><span class="marker"></span>stack</div>
+    <span class="connector">→</span>
+    <div class="stage" data-target="education"><span class="marker"></span>education</div>
+    <span class="connector">→</span>
+    <div class="stage" data-target="contact"><span class="marker"></span>deploy</div>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div class="hero-eyebrow">OPEN TO DEVOPS ENGINEER ROLES</div>
+  <h1>Madhava Rao Dunna</h1>
+  <div class="hero-role">DevOps Engineer — CI/CD · GitOps · AWS · Kubernetes</div>
+  <p class="hero-desc">
+    Four-plus years running releases and production deployments for BFSI clients at TCS,
+    paired with hands-on projects in Kubernetes, GitOps and AWS-native delivery.
+    I automate the steps people shouldn't have to repeat.
+  </p>
+
+  <div class="terminal">
+    <div class="terminal-bar"><span></span><span></span><span></span></div>
+    <div class="terminal-body">
+      <div><span class="prompt">$</span> whoami</div>
+      <div class="out">devops_engineer @ TCS · BFSI</div>
+      <div style="margin-top:10px;"><span class="prompt">$</span> ls projects/</div>
+      <div class="out">deploygate  livequiz  aws-cicd-platform<span class="caret"></span></div>
+    </div>
+  </div>
+
+  <div class="hero-links">
+    <a class="btn btn-primary" href="#projects">View projects ↓</a>
+    <a class="btn btn-ghost" href="https://github.com/immadhav7" target="_blank" rel="noopener">GitHub ↗</a>
+    <a class="btn btn-ghost" href="https://www.linkedin.com/in/madhava-rao-dunna-0712741a7/" target="_blank" rel="noopener">LinkedIn ↗</a>
+  </div>
+</header>
+
+<section id="about" class="wrap">
+  <div class="section-head">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Profile</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        I'm a <strong>DevOps Engineer at Tata Consultancy Services</strong>, working across
+        BFSI insurance clients for over four years. I own <strong>Jenkins CI/CD pipelines</strong>
+        and release applications through UAT, Pre-Prod and Production, which is where I learned
+        what operational discipline actually costs when something goes wrong.
+      </p>
+      <p>
+        Outside client work I build end-to-end projects to go deeper: a Jenkins and
+        <strong>Kubernetes</strong> pipeline with monitoring, a <strong>GitOps</strong> platform with
+        <strong>ArgoCD and Helm</strong>, and a multi-environment <strong>blue/green delivery</strong>
+        platform on <strong>AWS ECS Fargate</strong>, all provisioned with <strong>Terraform</strong>.
+      </p>
+      <p>
+        I care about automation, infrastructure as code, and systems that roll back on their own
+        so nobody has to be awake at 3am.
+      </p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card">
+        <div class="stat-num">4+ yrs</div>
+        <div class="stat-label">CI/CD · RELEASE · DEPLOYMENT</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3 clients</div>
+        <div class="stat-label">BFSI INSURANCE ENGAGEMENTS</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3 projects</div>
+        <div class="stat-label">K8S · GITOPS · AWS-NATIVE CI/CD</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">AWS CCP</div>
+        <div class="stat-label">CERTIFIED CLOUD PRACTITIONER</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience" class="wrap">
+  <div class="section-head">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Experience</h2>
+  </div>
+
+  <div class="job">
+    <div class="job-meta">
+      <div class="status"><span class="marker"></span>RUNNING</div>
+      Jan 2024 — Present<br>Kolkata, India
+    </div>
+    <div>
+      <div class="job-role">DevOps Engineer</div>
+      <div class="job-org">Tata Consultancy Services · SBI General Insurance (SBIG BFSI Products)</div>
+      <ul>
+        <li>Own end-to-end CI/CD pipeline development and maintenance using Jenkins, Git, SonarQube, Maven and Gradle for automated, reliable releases.</li>
+        <li>Manage deployments across UAT, Pre-Prod and Production through AWS VDI, including server monitoring, log analysis and MySQL database administration.</li>
+        <li>Wrote Bash automation that reduced manual deployment effort and made releases more consistent.</li>
+        <li>Work with development and operations teams to resolve application and infrastructure issues and keep releases stable and available.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="job">
+    <div class="job-meta">
+      <div class="status done"><span class="marker"></span>COMPLETED</div>
+      Jun 2023 — Dec 2023<br>Kolkata, India
+    </div>
+    <div>
+      <div class="job-role">Systems Engineer</div>
+      <div class="job-org">Tata Consultancy Services · Bajaj Allianz General Insurance</div>
+      <ul>
+        <li>Managed CI/CD with Jenkins, Git, SonarQube, Maven and Gradle, automating build, code-quality validation and deployment for enterprise insurance applications.</li>
+        <li>Executed releases across UAT, Pre-Prod and Production through AWS VDI, with deployment validation, server monitoring, log analysis and MySQL changes.</li>
+        <li>Handled deployment requests, access management and configuration changes with development teams, improving turnaround time.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="job">
+    <div class="job-meta">
+      <div class="status done"><span class="marker"></span>COMPLETED</div>
+      Jun 2022 — May 2023<br>Kolkata, India
+    </div>
+    <div>
+      <div class="job-role">Systems Engineer</div>
+      <div class="job-org">Tata Consultancy Services · Future Generali India Insurance</div>
+      <ul>
+        <li>Supported CI/CD release activities using Jenkins, Git, SonarQube, Maven and Gradle across Development, QA, UAT and Production.</li>
+        <li>Ran deployments through AWS VDI, with server monitoring, log analysis, storage validation and MySQL updates during release cycles.</li>
+        <li>Coordinated deployment requests, approvals, release schedules and configuration changes for smooth, on-time production releases.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="wrap">
+  <div class="section-head">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Projects</h2>
+  </div>
+
+  <div class="project-list">
+
+    <article class="project">
+      <div class="project-top">
+        <div>
+          <div class="project-id">PROJECT 01 · PERSONAL</div>
+          <h3 class="project-name">DeployGate</h3>
+          <div class="project-sub">End-to-end CI/CD &amp; Kubernetes deployment pipeline</div>
+        </div>
+        <a class="project-link" href="https://github.com/immadhav7/DeployGate" target="_blank" rel="noopener">View repo ↗</a>
+      </div>
+      <ul>
+        <li>Containerized a Spring Boot + PostgreSQL app with a <strong>multi-stage Docker build</strong>, producing a minimal non-root image.</li>
+        <li>Designed a declarative <strong>Jenkins pipeline as code</strong>: build, 37 unit tests, SonarCloud analysis and image build/tag on every commit.</li>
+        <li>Deployed to a self-managed <strong>k3s cluster on EC2</strong> with Deployments, Services, ConfigMaps, Secrets and PVCs, plus in-cluster PostgreSQL and a <strong>Prometheus + Grafana</strong> stack (7 healthy scrape targets verified via PromQL).</li>
+        <li>Diagnosed two incidents, a swap-driven I/O bottleneck (84.9% I/O wait) and an undersized EBS volume, using top, free, systemctl and CloudWatch. Automated provisioning with Ansible and authored Terraform for VPC, EKS and IAM.</li>
+      </ul>
+      <div class="chips">
+        <span class="chip">Jenkins</span><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">SonarCloud</span><span class="chip">Ansible</span><span class="chip">Terraform</span><span class="chip">Helm</span><span class="chip">Prometheus</span><span class="chip">Grafana</span><span class="chip">AWS</span>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="project-top">
+        <div>
+          <div class="project-id">PROJECT 02 · PERSONAL</div>
+          <h3 class="project-name">LiveQuiz</h3>
+          <div class="project-sub">GitOps delivery platform for a quiz web app on AWS</div>
+        </div>
+        <a class="project-link" href="https://github.com/immadhav7/livequiz-deploy" target="_blank" rel="noopener">View repo ↗</a>
+      </div>
+      <ul>
+        <li><strong>GitHub Actions</strong> tests a Spring Boot app, pushes a SHA-tagged image to GHCR and commits the new tag to a separate deploy repo.</li>
+        <li><strong>ArgoCD + a self-written Helm chart</strong>: dev auto-syncs with self-heal; prod changes only through a reviewed PR plus manual Sync, and rollback is a git revert.</li>
+        <li>Provisioned EC2 with k3s using <strong>Terraform</strong> (single-IP security group, IMDSv2, encrypted disk); the full environment rebuilds from code in about 10 minutes.</li>
+      </ul>
+      <div class="chips">
+        <span class="chip">GitHub Actions</span><span class="chip">GHCR</span><span class="chip">Docker</span><span class="chip">Terraform</span><span class="chip">Helm</span><span class="chip">ArgoCD</span><span class="chip">k3s</span>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="project-top">
+        <div>
+          <div class="project-id">PROJECT 03 · PERSONAL</div>
+          <h3 class="project-name">AWS CI/CD Platform</h3>
+          <div class="project-sub">Multi-environment blue/green delivery on ECS Fargate</div>
+        </div>
+        <a class="project-link" href="https://github.com/immadhav7/aws-cicd-platform" target="_blank" rel="noopener">View repo ↗</a>
+      </div>
+      <ul>
+        <li>Built with <strong>Terraform</strong>: each commit is tested and built once, tagged with its SHA, deployed to dev, then promoted to prod behind a <strong>manual SNS approval gate</strong>.</li>
+        <li><strong>Blue/green canary deploys</strong> with CodeDeploy (10% of traffic for 5 minutes) and a CloudWatch 5xx alarm. Demonstrated automatic rollback with a simulated fault that passed health checks but failed real requests.</li>
+        <li><strong>Least-privilege IAM</strong> per service and <strong>immutable ECR tags</strong>, so every running version maps to exactly one commit.</li>
+        <li>Per-environment CloudWatch dashboards, plus teardown and billing-check scripts that keep cost near zero (about $0.15/hour with both environments up).</li>
+      </ul>
+      <div class="chips">
+        <span class="chip">AWS</span><span class="chip">Terraform</span><span class="chip">ECS Fargate</span><span class="chip">CodePipeline</span><span class="chip">CodeBuild</span><span class="chip">CodeDeploy</span><span class="chip">ECR</span><span class="chip">ALB</span><span class="chip">CloudWatch</span><span class="chip">SNS</span>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<section id="stack" class="wrap">
+  <div class="section-head">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Stack</h2>
+  </div>
+
+  <div class="stack-group">
+    <div class="stack-group-title">ci/cd &amp; gitops</div>
+    <div class="tag-row">
+      <div class="tag core"><span class="marker"></span>Jenkins</div>
+      <div class="tag core"><span class="marker"></span>GitHub Actions</div>
+      <div class="tag core"><span class="marker"></span>ArgoCD</div>
+      <div class="tag core"><span class="marker"></span>Git / GitHub</div>
+      <div class="tag core"><span class="marker"></span>Maven / Gradle</div>
+      <div class="tag core"><span class="marker"></span>SonarQube / SonarCloud</div>
+    </div>
+  </div>
+
+  <div class="stack-group">
+    <div class="stack-group-title">cloud &amp; infrastructure as code</div>
+    <div class="tag-row">
+      <div class="tag core"><span class="marker"></span>AWS · EC2 / IAM / VPC / EBS / S3</div>
+      <div class="tag core"><span class="marker"></span>ECS Fargate / ECR / ALB</div>
+      <div class="tag core"><span class="marker"></span>CodePipeline / CodeBuild / CodeDeploy</div>
+      <div class="tag core"><span class="marker"></span>Terraform</div>
+      <div class="tag core"><span class="marker"></span>Ansible</div>
+    </div>
+  </div>
+
+  <div class="stack-group">
+    <div class="stack-group-title">containers &amp; orchestration</div>
+    <div class="tag-row">
+      <div class="tag core"><span class="marker"></span>Docker / Compose</div>
+      <div class="tag core"><span class="marker"></span>Kubernetes (k3s)</div>
+      <div class="tag core"><span class="marker"></span>Helm</div>
+    </div>
+  </div>
+
+  <div class="stack-group">
+    <div class="stack-group-title">monitoring, scripting &amp; systems</div>
+    <div class="tag-row">
+      <div class="tag core"><span class="marker"></span>Prometheus / Grafana</div>
+      <div class="tag core"><span class="marker"></span>CloudWatch</div>
+      <div class="tag core"><span class="marker"></span>Bash</div>
+      <div class="tag core"><span class="marker"></span>Python</div>
+      <div class="tag core"><span class="marker"></span>Linux</div>
+      <div class="tag core"><span class="marker"></span>MySQL</div>
+    </div>
+  </div>
+
+  <div class="stack-group">
+    <div class="stack-group-title">building — active learning</div>
+    <div class="tag-row">
+      <div class="tag building"><span class="marker"></span>Kubernetes on EKS</div>
+      <div class="tag building"><span class="marker"></span>Observability &amp; alerting</div>
+      <div class="tag building"><span class="marker"></span>Python for automation</div>
+    </div>
+  </div>
+</section>
+
+<section id="education" class="wrap">
+  <div class="section-head">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Education &amp; Certification</h2>
+  </div>
+  <div class="edu-card">
+    <div>
+      <div class="edu-degree">B.Tech, Civil Engineering</div>
+      <div class="edu-school">RGUKT IIIT Nuzvid</div>
+      <p class="edu-note">Graduated with a CGPA of 7.6, First Class.</p>
+    </div>
+    <div class="edu-date">2016 — 2020<br>Nuzvid</div>
+  </div>
+  <div class="edu-card">
+    <div>
+      <div class="edu-degree">AWS Certified Cloud Practitioner</div>
+      <div class="edu-school">Amazon Web Services · CLF-C02</div>
+      <p class="edu-note">Foundational certification covering AWS cloud concepts, core services, security and pricing.</p>
+    </div>
+    <div class="edu-date">Fundamental</div>
+  </div>
+  <p class="edu-note" style="margin-top:6px;">Languages: Telugu · English · Hindi</p>
+</section>
+
+<section id="contact" class="wrap contact">
+  <div class="section-head">
+    <span class="section-num">06</span>
+    <h2 class="section-title">Deploy</h2>
+  </div>
+  <h2 class="cta">Let's ship something reliable together.</h2>
+  <p>Open to DevOps Engineer roles in CI/CD, containers, GitOps and cloud infrastructure. Reach out by email or LinkedIn.</p>
+  <div class="contact-actions">
+    <a class="btn btn-primary" href="mailto:madhavchinna707@gmail.com">Email me ↗</a>
+    <a class="btn btn-ghost" href="https://www.linkedin.com/in/madhava-rao-dunna-0712741a7/" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a class="btn btn-ghost" href="https://github.com/immadhav7" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+</section>
+
+<footer>© 2026 Madhava Rao Dunna — build passing.</footer>
+
+<script>
+  const stages = document.querySelectorAll('.stage');
+  const targets = Array.from(stages).map(s => document.getElementById(s.dataset.target));
+
+  stages.forEach(stage => {
+    stage.addEventListener('click', () => {
+      document.getElementById(stage.dataset.target).scrollIntoView({behavior:'smooth'});
+    });
+  });
+
+  function updateNav(){
+    const scrollPos = window.scrollY + window.innerHeight * 0.35;
+    let activeIndex = 0;
+    targets.forEach((el, i) => {
+      if(el && el.offsetTop <= scrollPos) activeIndex = i;
+    });
+    stages.forEach((stage, i) => {
+      stage.classList.remove('active','passed');
+      if(i < activeIndex) stage.classList.add('passed');
+      else if(i === activeIndex) stage.classList.add('active');
+    });
+  }
+
+  window.addEventListener('scroll', updateNav, {passive:true});
+  window.addEventListener('load', updateNav);
+</script>
+
+</body>
+</html>
